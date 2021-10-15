@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login |CódigoMasters|</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #ffffff;" id="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="img/logo.jpg" alt="" width="300">
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="./index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="./index.html">     </a></li>
+                    <li>
+                      <p>
+                        <a href="./index2.html" class="btn btn-outline-success my-2 my-sm-0" title="">Iniciar Sesion</a>
+                      </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+    <div class="contenedor-form">
+        <div class="toggle">
+            <span>Crear Cuenta</span>
+        </div>
+        
+        <div class="formulario">
+            <h2>Iniciar Sesión</h2>
+            <form  id="login">
+                <input type="text" autocomplete="off" id="username" placeholder="Usuario" required>
+                <input type="password" autocomplete="off" id="password" placeholder="Contraseña" required>
+                <input type="submit" value="Iniciar Sesión">
+            </form>
+            <script>
+                const form1 = document.getElementById('login')
+                form1.addEventListener('submit', login)
+                //1. Envia los datos al JSON para poder utilizarlos en el server.js
+                //2. Envia los datos al urlencoded para poder utilizarlos en el server.js
+                async function login(event){
+                    event.preventDefault()
+                    const username = document.getElementById('username').value
+                    const password = document.getElementById('password').value
+
+                    const result = await fetch('/api/login',{
+                        method: 'POST',
+                        headers:{
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            username,
+                            password
+                        })
+                    }).then(res => res.json())
+
+                    if(result.status === 'ok'){
+                        //Everythign went fine
+                        console.log('Acceso consedido: ', result.data)
+                        localStorage.setItem('token', result.data)
+                        alert('Acceso consedido');
+                    }else{
+                        alert(result.error);
+                    }
+                }
+            </script>
+        </div>
+        
+        <div class="formulario">
+            <h2>Crear Cuenta</h2>
+            <form id="reg-form">
+                <input type="text" autocomplete="off" id="username" placeholder="Usuario" required>
+                
+                <input type="password" autocomplete="off" id="password" placeholder="Contraseña" required>
+                
+                <input type="email" autocomplete="off" id="email" placeholder="Correo Electronico" required>
+                
+                <input type="text" autocomplete="off" id="phone" placeholder="Teléfono" required>
+                
+                <input type="submit" value="Registrarse">
+            </form>
+            <script>
+                const form = document.getElementById('reg-form')
+                form.addEventListener('submit', registerUser)
+                //1. Envia los datos al JSON para poder utilizarlos en el server.js
+                //2. Envia los datos al urlencoded para poder utilizarlos en el server.js
+                async function registerUser(event){
+                    event.preventDefault()
+                    const username = document.getElementById('username').value
+                    const password = document.getElementById('password').value
+                    const email = document.getElementById('email').value
+                    const phone = document.getElementById('phone').value
+
+                    const result = await fetch('/api/register',{
+                        method: 'POST',
+                        headers:{
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            username,
+                            password,
+                            email,
+                            phone
+                        })
+                    }).then(res => res.json())
+
+                    if(result.status === 'ok'){
+                        //Everythign went fine
+                        alert('Usuario Registrado');
+                    }else{
+                        alert(result.error);
+                    }
+                }
+            </script>
+        </div>
+        <div class="reset-password">
+            <a href="#">Olvide mi Contraseña?</a>
+        </div> 
+    </div>
+    <script src="js/jquery-3.1.1.min.js"></script>    
+    <script src="js/main.js"></script>
+    <script src="js/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+</body>
+</html>
