@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "babel-node server.js --exce",
+    "start": "node server.js --exce",
     "dev": "nodemon server.js",
     "devbabel": "nodemon server.js --exec babel-node"
   },
