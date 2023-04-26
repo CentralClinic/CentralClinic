@@ -15,7 +15,7 @@ mongoose.connect(uri, options).then(
  () => { console.log('Conectado a DB') },
  err => { console.log(err) }
 );
-
+//Random comment
 app.use('/', express.static(path.join(__dirname, 'static')));
 app.use(express.json());
 
